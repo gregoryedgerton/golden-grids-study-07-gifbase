@@ -1,3 +1,5 @@
+GIFcommit00006
+
 # Layout study — the signed-in Coinbase web app, as GIFbase
 
 **Live:** [`https://gregoryedgerton.github.io/golden-grids-study-07-coinbase/`](https://gregoryedgerton.github.io/golden-grids-study-07-coinbase/)
