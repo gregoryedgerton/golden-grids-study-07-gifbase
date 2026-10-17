@@ -2,7 +2,7 @@ GIFcommit00006
 
 # Layout study — the signed-in Coinbase web app, as GIFbase
 
-**Live:** [`https://gregoryedgerton.github.io/golden-grids-study-07-coinbase/`](https://gregoryedgerton.github.io/golden-grids-study-07-coinbase/)
+**Live:** [`https://gregoryedgerton.github.io/golden-grids-study-07-gifbase/`](https://gregoryedgerton.github.io/golden-grids-study-07-gifbase/)
 
 An unaffiliated layout study. It rebuilds the structure of Coinbase's
 signed-in web app — the home with its balance chart, order panel (here a
@@ -157,3 +157,5 @@ npm run dev
 `npm run build` type-checks and builds to `dist/`; pushing to `main` deploys
 to GitHub Pages. The library is consumed from npm at its published version,
 never linked locally.
+
+- **Address (2026-10-17, Greg).** The repository moved from `golden-grids-study-07-coinbase` to `golden-grids-study-07-gifbase`, so the reference's name is no longer in the study's web address (a step against the Safe Browsing flag on the shared origin); the old address no longer serves anything.

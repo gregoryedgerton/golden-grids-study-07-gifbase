@@ -15,7 +15,7 @@ figures; `src/data.ts` reads `src/data/market.json`, which
 `captures/data.py` writes; `src/portfolio.ts` is the fictional account.
 Read `docs/program/PROGRAM.md`, then `STUDY-BRIEF.md`, then `README.md`.
 
-Live at https://gregoryedgerton.github.io/golden-grids-study-07-coinbase/;
+Live at https://gregoryedgerton.github.io/golden-grids-study-07-gifbase/;
 pushing to `main` deploys.
 
 ## Rules that are not negotiable
@@ -326,3 +326,5 @@ price and a call to action, a seed or recovery phrase or private-key field,
 or any link to coinbase.com. Educational prose about keys and wallets (the
 Learn cards) can stay. After deploying, request a review in Google Search
 Console (Security Issues) so the flag is lifted.
+
+- **Address (2026-10-17, Greg).** The repository moved from `golden-grids-study-07-coinbase` to `golden-grids-study-07-gifbase`, so the reference's name is no longer in the study's web address (a step against the Safe Browsing flag on the shared origin); the old address no longer serves anything.
