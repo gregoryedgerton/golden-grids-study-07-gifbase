@@ -1,4 +1,3 @@
-import { useState, type FormEvent } from "react";
 import { ASSETS, SYMBOLS, usd, pct, qty, units, changePct24 } from "../data";
 import { positions, totals, TRANSACTIONS, CASH, STAKING } from "../portfolio";
 import { Sparkline } from "./charts";
@@ -7,70 +6,66 @@ import { rangeChange } from "../data";
 
 /**
  * The flat modules the signed-in reference places between its grids: the
- * Buy / Sell / Convert panel, the subscription and recurring-buy
- * promotions, the transactions list, the assets table. Lists and forms
- * stay lists and forms. The exchange is fictional; nothing here executes.
+ * quote card where the reference has its Buy / Sell / Convert panel, three
+ * notes where it has promotions, the transactions list, the assets table.
+ * Lists stay lists. The exchange is fictional and nothing here executes.
  */
-export function TradePanel({ symbol = "BTC" }: { symbol?: string }) {
-  const [mode, setMode] = useState<"Buy" | "Sell" | "Convert">("Buy");
-  const [sym, setSym] = useState(symbol);
-  const [amount, setAmount] = useState("100");
-  const [previewed, setPreviewed] = useState(false);
-  const a = ASSETS[sym];
-  const n = Math.max(0, parseFloat(amount) || 0);
-  const fee = Math.max(0.99, n * 0.0149);
-  const gets = n > fee ? (n - fee) / a.price : 0;
-  const onSubmit = (e: FormEvent) => { e.preventDefault(); setPreviewed(true); };
+
+/** The exchange's fee on a buy or sell: a share of the amount, with a floor of 99 cents. Fictional, like the exchange. */
+const FEE = { rate: 1.49, floor: "99 cents" };
+
+/**
+ * The quote card, in the place the reference gives its order panel. It reads
+ * and does not trade: no amount, no asset picker, no order type, no button.
+ * Those were removed against Google Safe Browsing (CLAUDE.md, Safe Browsing
+ * remediation) and must not come back.
+ */
+export function QuoteCard({ symbol = "BTC" }: { symbol?: string }) {
+  const a = ASSETS[symbol];
+  const ch = changePct24(a);
   return (
-    <section className="panel" id="trade" aria-labelledby="trade-title">
-      <h2 id="trade-title" className="visually-hidden">Trade</h2>
-      <div className="panel__tabs" role="tablist" aria-label="Order type">
-        {(["Buy", "Sell", "Convert"] as const).map((m) => <button key={m} type="button" role="tab" aria-selected={m === mode} className="tab tab--panel" onClick={() => { setMode(m); setPreviewed(false); }}>{m}</button>)}
+    <section className="panel quote" id="quote" aria-labelledby="quote-title">
+      <div className="quote__head">
+        <p className="quote__kicker">Quote</p>
+        <h2 id="quote-title" className="quote__title">{a.name} <span className="muted">{a.symbol}</span></h2>
       </div>
-      <form className="order" onSubmit={onSubmit} aria-describedby="order-note">
-        <label className="order__amount">
-          <span className="order__label">{mode === "Sell" ? "Sell" : "Spend"}</span>
-          <span className="order__input"><span className="order__cur" aria-hidden="true">$</span><input inputMode="decimal" value={amount} onChange={(e) => { setAmount(e.target.value.replace(/[^\d.]/g, "")); setPreviewed(false); }} aria-label={`Amount in US dollars to ${mode.toLowerCase()}`} /></span>
-          <span className="order__quick">{["25", "100", "500", "1000"].map((q) => <button key={q} type="button" onClick={() => { setAmount(q); setPreviewed(false); }}>${q}</button>)}</span>
-        </label>
-        <label className="order__asset">
-          <span className="order__label">{mode === "Convert" ? "To" : "Asset"}</span>
-          <select value={sym} onChange={(e) => { setSym(e.target.value); setPreviewed(false); }}>{SYMBOLS.map((s) => <option key={s} value={s}>{ASSETS[s].name} ({s})</option>)}</select>
-        </label>
-        <dl className="order__sum">
-          <div><dt>{sym} price</dt><dd>{usd(a.price)}</dd></div>
-          <div><dt>Fee</dt><dd>{n ? usd(fee) : "—"}</dd></div>
-          <div><dt>{mode === "Sell" ? "You receive" : "You get"}</dt><dd>{n ? (mode === "Sell" ? usd(n - fee) : qty(gets, sym)) : "—"}</dd></div>
-          <div><dt>Pay with</dt><dd>{mode === "Convert" ? "USDC balance" : `USDC balance · ${usd(CASH)}`}</dd></div>
+      <div className="quote__body">
+        <div className="quote__lead">
+          <p className="quote__price">{usd(a.price)}</p>
+          <p className={`quote__change ${ch >= 0 ? "is-up" : "is-down"}`}>{pct(ch)} <span className="muted">in twenty-four hours</span></p>
+          <p className="quote__fee"><strong>What a fee is.</strong> The exchange's charge for carrying out a buy or a sell, taken from the amount: here {FEE.rate}% of it, and never less than {FEE.floor}. The price itself also carries a small spread between what buyers pay and what sellers receive.</p>
+        </div>
+        <dl className="quote__sum">
+          <div><dt>{a.symbol} price</dt><dd>{usd(a.price)}</dd></div>
+          <div><dt>24h change</dt><dd className={ch >= 0 ? "is-up" : "is-down"}>{usd(a.price - a.open24, { sign: true })}</dd></div>
+          <div><dt>24h range</dt><dd>{usd(a.low24)} to {usd(a.high24)}</dd></div>
+          <div><dt>Fee</dt><dd>{FEE.rate}%, at least {FEE.floor}</dd></div>
+          <div><dt>USDC balance</dt><dd>{usd(CASH)}</dd></div>
         </dl>
-        <button type="submit" className="btn btn--primary btn--wide">{previewed ? `${mode} ${qty(gets, sym)}` : `Preview ${mode.toLowerCase()}`}</button>
-        <p id="order-note" className="note" aria-live="polite">{previewed ? "A preview only: this is a layout study and no order is placed." : "Orders here are not real; the panel is part of a layout study."}</p>
-      </form>
+      </div>
+      <p className="note">A quote to read, not an order. GIFbase is fictional: it has no order form, and nothing here buys, sells or converts.</p>
     </section>
   );
 }
 
-export function Promos() {
+/** Three notes in the band the reference gives its promotions. Each describes; none offers or asks. */
+export function Notes() {
   return (
-    <section className="promos" aria-label="Offers">
+    <section className="promos" aria-label="Notes">
       <article className="promo">
-        <p className="promo__kicker">GIFbase One</p>
-        <h2 className="promo__title">Zero trading fees, boosted rewards</h2>
-        <p className="promo__pitch">A subscription for people who trade often: no fee on buys and sells up to $10,000 a month, a higher rate on USDC balances, and priority support. {usd(29.99)} a month after a thirty-day trial.</p>
-        <button type="button" className="btn">Start the trial</button>
-        <p className="note">A fictional subscription for a layout study; the button does nothing.</p>
+        <p className="promo__kicker">Markets</p>
+        <h2 className="promo__title">Trading never closes</h2>
+        <p className="promo__pitch">Crypto assets trade every hour of every day, weekends and holidays included, so there is no opening or closing price. A day's change is measured from the price at the same time yesterday, and the figures here are a snapshot taken at the time printed above.</p>
       </article>
       <article className="promo">
         <p className="promo__kicker">Recurring buys</p>
-        <h2 className="promo__title">Buy a little every week</h2>
-        <p className="promo__pitch">Set an amount and a day and the purchase repeats, whatever the price. The three recent Bitcoin buys in Transactions are a $1,000 weekly order.</p>
-        <button type="button" className="btn btn--ghost">Set up a recurring buy</button>
+        <h2 className="promo__title">A little every week</h2>
+        <p className="promo__pitch">A recurring buy repeats a purchase of a set amount on a set day, whatever the price, so each week's amount buys more when the price is low and less when it is high. The three recent Bitcoin buys in Transactions are such an order, $1,000 a week.</p>
       </article>
       <article className="promo">
         <p className="promo__kicker">Earn</p>
-        <h2 className="promo__title">Stake what you hold</h2>
-        <p className="promo__pitch">Ethereum and Solana in this account are staked and earning; Cardano, Polkadot and Avalanche can be. Rates are on the Earn page.</p>
-        <a className="btn btn--ghost" href="./earn.html">See rewards rates</a>
+        <h2 className="promo__title">Staking what is held</h2>
+        <p className="promo__pitch">Ethereum and Solana in this account are staked and earning; Cardano, Polkadot and Avalanche can be. The rates and the waiting period to unstake each one are on the <a href="./earn.html">Earn page</a>.</p>
       </article>
     </section>
   );

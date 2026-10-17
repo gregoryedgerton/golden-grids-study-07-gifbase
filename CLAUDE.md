@@ -158,12 +158,12 @@ README: the smallest line, and that no screen-reader user has tested it.
   the script and commit the JSON with it.
 - The account is FICTIONAL and says so wherever it could be mistaken for
   one: `src/portfolio.ts` (holdings, cost bases, staking, transactions,
-  rates) belongs to no one; the trade panel previews and places nothing;
-  promotions describe a fictional subscription. Nothing on the page is
-  advice, and the colophon says so.
+  rates) belongs to no one; the quote card (`QuoteCard`) reads a price and
+  a fee and has no form; the notes band (`Notes`) describes and offers
+  nothing. Nothing on the page is advice, and the disclosure says so.
 - Sources are attributed where they appear: Coinbase Exchange public API
-  and CoinGecko in the colophon, Wikipedia (CC BY-SA 4.0) on each card and
-  in the expanded cell.
+  (named, not linked) and CoinGecko in the disclosure, Wikipedia (CC BY-SA
+  4.0) on each card and in the expanded cell.
 - Below desktop, a five- or six-square band is dealt into two stacked
   grids (`Grids` in `bands.tsx`: a three and a two, or two threes), so no
   square is under 114px. Never shrink a band's range to make a number fit;
@@ -283,3 +283,46 @@ opened in StackBlitz at `https://stackblitz.com/~/github.com/gregoryedgerton/gol
 - Do not append `?file=` to the `~/github.com` link; it made the IDE fail to
   start in testing. The classic `/github/` importer accepts `?file=` but waits
   on a WebSocket and can stall at "Cloning repo from GitHub".
+
+## Safe Browsing remediation (2026-10)
+
+On 2026-10-17 Google Safe Browsing flagged the whole origin
+`gregoryedgerton.github.io` as social engineering. The first trigger was a demo
+bank sign-in in study 19 (GIFbank); every study was then cleared of anything
+that *looks like* collecting credentials or personal data, signing in, paying or
+trading, or linking to a real login-walled page. Nothing was ever collected
+here; the heuristic reads appearance, so appearance is what changed. A crypto
+exchange is a common phishing subject, so this study's bar is high.
+
+**What changed**
+- The Buy / Sell / Convert panel (`TradePanel`: order-type tabs, an amount
+  input, quick-amount buttons, an asset select, a Preview / Buy submit) is now
+  `QuoteCard` in `src/lib/modules.tsx`, in the same place on Home, Trade and
+  the four asset pages: the asset, its price and 24h change, the 24h range,
+  what the fee is and the USDC balance, as text and a `dl`. Its anchor is
+  `#quote`; the About band's link box reads "{symbol} price and fee".
+- The top bar's Buy & sell button is the static text "Demo account"
+  (`.topbar__demo`), and the account's accessible name no longer says
+  "Signed in as".
+- The promotions band (`Promos`) is `Notes`: the GIFbase One subscription
+  (monthly price, "Start the trial") is gone, replaced by a note on markets
+  trading around the clock; the recurring-buy note lost its "Set up a
+  recurring buy" button; the Earn note links to the Earn page in its prose.
+- Copy that pointed to a trade action now describes: the Cash square, the
+  "Your {symbol}" square when nothing is held, the Home and Trade standfirsts.
+- No Coinbase address is in the build. `study.json` names the reviewed page
+  and the market-data source without `url`, the disclosure says why ("Why
+  nothing here links to Coinbase", passed to `StudyDisclosure` from
+  `Page.tsx`), and the README keeps the addresses. This is an exception to
+  the program's rule that the notice and disclosure link the reference.
+  `captures/data.py` still calls the public API; it is not part of the build.
+  Check: `grep -r coinbase.com dist` finds nothing.
+
+**Do not** bring back, in this study or a sibling: an order form, an amount
+or quantity input, an asset picker that feeds an order, Buy / Sell / Convert /
+Preview / Send / Receive / Deposit / Withdraw / Add cash / Connect wallet /
+Verify identity / Sign in controls, a subscription or trial pitch with a
+price and a call to action, a seed or recovery phrase or private-key field,
+or any link to coinbase.com. Educational prose about keys and wallets (the
+Learn cards) can stay. After deploying, request a review in Google Search
+Console (Security Issues) so the flag is lifted.

@@ -4,16 +4,16 @@ import { Page } from "../lib/Page";
 import { useFontsReady } from "../lib/fonts";
 import "../styles.css";
 import { BalanceBand, WatchlistBand, MoversBand, LearnBand } from "../bands/bands";
-import { TradePanel, Promos, TransactionsList } from "../lib/modules";
+import { QuoteCard, Notes, TransactionsList } from "../lib/modules";
 
 function App() {
   useFontsReady(["700 1em Inter", "500 1em Inter"]);
   return (
-    <Page current="index.html" title="Home" standfirst="Your balance, the markets, and what to do about them: the signed-in home of a fictional exchange, priced from live public data.">
+    <Page current="index.html" title="Home" standfirst="Your balance and the markets: the account home of a fictional exchange, priced from live public data.">
       <BalanceBand />
-      <TradePanel />
+      <QuoteCard />
       <WatchlistBand symbols={["BTC", "ETH", "SOL", "XRP", "LINK", "DOGE"]} />
-      <Promos />
+      <Notes />
       <MoversBand />
       <TransactionsList limit={5} />
       <LearnBand keys={[["BTC", "What is Bitcoin?"], ["staking", "How staking pays"], ["stablecoin", "What a stablecoin is"], ["wallet", "Keys and wallets"]]} />

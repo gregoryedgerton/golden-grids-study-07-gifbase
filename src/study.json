@@ -15,14 +15,13 @@
     "transactions": "Transactions",
     "xrp": "XRP"
   },
-  "summary": "The signed-in Coinbase web app (home, assets, trade, earn, transactions, learn and four asset pages) rebuilt as stacked golden grids for an exchange that does not exist, with an account that belongs to no one.",
+  "summary": "The signed-in Coinbase web app (home, assets, trade, earn, transactions, learn and four asset pages) rebuilt as stacked golden grids for an exchange that does not exist, with an account that belongs to no one. Where the reference has its order panel, the study has a quote card that reads a price and a fee and has no order form.",
   "reviewed": {
     "date": "October 7, 2026",
-    "method": "Not captured. Coinbase's pages, public ones included, sit behind a bot check that the study did not cross, and the study does not sign in. The structure is drawn from how the app is known to be organised, so there is no side-by-side comparison.",
+    "method": "Not captured. Coinbase's pages, public ones included, sit behind a bot check that the study did not cross, and the study does not sign in. The structure is drawn from how the app is known to be organised, so there is no side-by-side comparison. The app and the documentation of its public market data are named here but not linked: a lookalike of an exchange that links to the exchange reads as phishing to Google's scanners, which flagged the address this series is published at in October 2026. The repository's README links them.",
     "pages": [
       {
-        "label": "The signed-in Coinbase web app",
-        "url": "https://www.coinbase.com/"
+        "label": "The signed-in Coinbase web app"
       }
     ]
   },
@@ -32,15 +31,15 @@
     "The descriptions of assets and terms, from Wikipedia."
   ],
   "invented": [
-    "GIFbase as an exchange, and GIFbase One. The names are parodies made for this study; it holds no licence, no money and no crypto.",
+    "GIFbase as an exchange. The name is a parody made for this study; it holds no licence, no money and no crypto.",
     "The account: its owner, holdings, cost bases, transactions, rewards and balances are made up and belong to no one.",
-    "Every control. Nothing can be bought, sold, staked, sent or withdrawn, and nothing here is investment advice."
+    "The fee and the rewards rates, which are indicative figures for a fictional exchange.",
+    "Every control is removed or reads only. There is no order form, no amount to enter, no transfer, no sign-in and no subscription: the reference's Buy / Sell / Convert panel is a quote card, its Buy & sell button is the words Demo account, and its promotions are notes. Nothing can be bought, sold, staked, sent or withdrawn, and nothing here is investment advice."
   ],
   "assets": [
     {
       "what": "Market data",
-      "source": "Coinbase Exchange public API",
-      "url": "https://docs.cdp.coinbase.com/exchange/reference"
+      "source": "Coinbase Exchange public API"
     },
     {
       "what": "Market statistics",
@@ -68,5 +67,5 @@
   ],
   "owner": "Coinbase",
   "repo": "https://github.com/gregoryedgerton/golden-grids-study-07-coinbase",
-  "updated": "October 9, 2026"
+  "updated": "October 17, 2026"
 }

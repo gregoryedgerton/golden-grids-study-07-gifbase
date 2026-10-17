@@ -7,8 +7,10 @@ import { ASSETS, PAGES, SYMBOLS } from "../data";
 /**
  * The signed-in shell, after the reference's: a left rail of sections at
  * desktop (a top bar and a bottom tab bar at phone width), a search field,
- * a Buy & sell control and the account. GIFbase is a fictional exchange;
- * the prices are real and the account is not.
+ * and the account. Where the reference has a Buy & sell button the top bar
+ * says, in plain text, that the account is a demo: there is no control that
+ * looks like it moves money (CLAUDE.md, Safe Browsing remediation).
+ * GIFbase is a fictional exchange; the prices are real and the account is not.
  */
 export const NAV: [string, string][] = [["index.html", "Home"], ["assets.html", "My assets"], ["trade.html", "Trade"], ["earn.html", "Earn"], ["transactions.html", "Transactions"], ["learn.html", "Learn"]];
 
@@ -36,8 +38,8 @@ export function Page({ current, title, standfirst, back, children }: { current: 
               <input id="q" type="search" placeholder="Search for an asset" list="assets" autoComplete="off" />
               <datalist id="assets">{SYMBOLS.map((s) => <option key={s} value={ASSETS[s].name} />)}</datalist>
             </form>
-            <a className="btn btn--primary topbar__buy" href="./trade.html#trade">Buy &amp; sell</a>
-            <p className="account" aria-label={`Signed in as ${ACCOUNT.name}`}><span className="account__avatar" aria-hidden="true">{ACCOUNT.initial}</span><span className="account__name">{ACCOUNT.name}</span></p>
+            <p className="topbar__demo">Demo account</p>
+            <p className="account" aria-label={`Demo account holder, ${ACCOUNT.name}`}><span className="account__avatar" aria-hidden="true">{ACCOUNT.initial}</span><span className="account__name">{ACCOUNT.name}</span></p>
           </header>
           <main id="content">
             <header className="masthead">
@@ -50,7 +52,9 @@ export function Page({ current, title, standfirst, back, children }: { current: 
           </main>
         </div>
       </div>
-      <StudyDisclosure />
+      <StudyDisclosure>
+        <p><strong>Why nothing here links to Coinbase.</strong> The app this study follows, and the documentation of the public market data it is priced from, are named but not linked. A page styled after an exchange that links to that exchange's own site can be flagged as phishing by automated scanners, as the address this series is published at was in October 2026, so the study does not link out to it. The addresses are listed in the study's repository.</p>
+      </StudyDisclosure>
       <nav className="tabbar" aria-label="Sections, phone">
         {NAV.slice(0, 5).map(([href, label]) => <a key={href} href={`./${href}`} aria-current={href === current ? "page" : undefined}>{label}</a>)}
       </nav>

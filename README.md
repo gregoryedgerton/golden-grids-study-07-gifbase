@@ -5,8 +5,8 @@ GIFcommit00006
 **Live:** [`https://gregoryedgerton.github.io/golden-grids-study-07-coinbase/`](https://gregoryedgerton.github.io/golden-grids-study-07-coinbase/)
 
 An unaffiliated layout study. It rebuilds the structure of Coinbase's
-signed-in web app — the home with its balance chart, trade panel,
-watchlist and movers; My assets; Trade; Earn; Transactions; Learn; and an
+signed-in web app — the home with its balance chart, order panel (here a
+read-only quote card), watchlist and movers; My assets; Trade; Earn; Transactions; Learn; and an
 asset's page — as ten pages of stacked golden grids for GIFbase, a
 fictional exchange, with an invented account valued at real prices. The
 reference was not captured: its public pages sit behind a bot check the
@@ -18,7 +18,8 @@ Coinbase — pages, marks, copy — is reproduced. Built with
 
 ## Reference
 
-The signed-in Coinbase web app, as of 2026: a left rail of sections (Home,
+The signed-in Coinbase web app ([`https://www.coinbase.com/`](https://www.coinbase.com/)),
+as of 2026: a left rail of sections (Home,
 My assets, Trade, Earn, Transactions, Learn), a top bar with search, a Buy
 & sell control and the account; a home that leads with "Your balance", a
 line chart with range tabs and a Buy / Sell / Convert panel beside it,
@@ -31,6 +32,12 @@ the proprietary face, a near-black dark scheme) is from the app's published
 design system, not measured. This is the first study in the series without
 a side-by-side, and the first whose content is live market data.
 
+The pages name the reference but do not link to it, and no Coinbase address
+is in the build: a lookalike of an exchange that links to the exchange reads
+as phishing to Google Safe Browsing (see Notes for review). The addresses are
+kept here only: the app, above, and the documentation of the public market
+data API, [`https://docs.cdp.coinbase.com/exchange/reference`](https://docs.cdp.coinbase.com/exchange/reference).
+
 ## Approach
 
 The signed-in app shows a balance, then each position, then each statistic, in cards and tables of even weight. The study sets each of those groups as one grid: a chart or the leading figure in the largest square, single figures in the smallest, with type fitted to each square.
@@ -41,9 +48,10 @@ Ten Vite entries, no router, plain relative links; `src/lib/Page.tsx` is
 the shell. Bands below with the grid's measured width×height at 390 / 820
 / 1440; below desktop a five- or six-square band is dealt into two stacked
 grids (a three and a two, or two threes) so no square falls under 114px,
-which is the lever this study adds to the series. Flat modules — the trade
-panel, promotions, transactions, the assets and prices tables, staking
-notes — are forms, lists and tables. Breakpoints live in
+which is the lever this study adds to the series. Flat modules — the quote
+card, three notes where the reference has promotions, transactions, the
+assets and prices tables, staking notes — are lists and tables; none is a
+form. Breakpoints live in
 [`src/lib/viewport.ts`](src/lib/viewport.ts).
 
 | Page · band | Range · placement · clockwise (desktop) | Measured | What it holds |
@@ -57,7 +65,7 @@ notes — are forms, lists and tables. Breakpoints live in
 | Learn · The ground / Further | 1–3 · top · ccw / bottom · cw | 332×498 / 762×508 / 1126×751 | Three topics each |
 | Asset · Price | 1–5 · top · cw | 332×221+166 / 762×508+381 / 1126×704 | Price with chart (1D 1W 1M 1Y ALL); your position, 24h, market cap, volume |
 | Asset · Market stats | 1–6 · right · ccw | 2×(332×221) / 2×(762×508) / 1126×693 | All-time high, supply, 24h high and low, 30d volume, rank |
-| Asset · About | 1–3 · bottom · cw | 332×498 / 762×508 / 1126×751 | The summary with More; links to the source and the trade panel |
+| Asset · About | 1–3 · bottom · cw | 332×498 / 762×508 / 1126×751 | The summary with More; links to the source and the quote card |
 | Asset · Also on GIFbase | 1–6 · right · cw | 2×(332×221) / 2×(762×508) / 1126×693 | Six other assets |
 
 All eight placement × direction orientations appear at desktop.
@@ -78,8 +86,9 @@ The account is fictional: `src/portfolio.ts` holds five positions with
 cost bases, two of them staked, a USDC balance, ten transactions and five
 indicative rewards rates. The balance chart values today's quantities at
 each point's prices. Every module that could be mistaken for an account or
-an offer says it is not; the trade panel previews an order and places
-nothing.
+an offer says it is not. Where the reference has its Buy / Sell / Convert
+panel there is a quote card: the asset, its price and change, what the fee
+is, and the USDC balance, with no amount, no order type and no button.
 
 ## How it works
 
@@ -110,6 +119,20 @@ Observations for whoever reviews this study, recorded without a verdict. Whether
 - **Fitted type.** With the 120px cap, a number alone in the largest square of a landscape five-square grid leaves room around it at 1440.
 - **Two change figures.** The 1D balance change and the 24h change measure different windows and can differ by tens of dollars; both are labelled.
 - **Rewards rates.** They are indicative figures, not a feed.
+- **Controls removed after Google flagged the series (2026-10-17).** Google
+  Safe Browsing flagged the address the studies are published at as
+  deceptive; the first trigger was a demo bank sign-in in another study.
+  Nothing here ever collected or sent anything, but a crypto exchange is a
+  common phishing subject, so this study lost everything that looked like an
+  account or money action: the Buy / Sell / Convert panel (an amount field,
+  quick amounts, an asset menu and a Preview button) is a read-only quote
+  card in the same place; the top bar's Buy & sell button is the plain words
+  "Demo account"; the GIFbase One promotion (a subscription with a monthly
+  price and "Start the trial") and the "Set up a recurring buy" button are
+  gone, and the promotions band is three notes that describe rather than
+  offer. The pages no longer link to Coinbase or its API documentation; the
+  closing disclosure says why ("Why nothing here links to Coinbase"), and
+  the addresses are kept in this README.
 
 ## Disclosure
 

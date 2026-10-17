@@ -55,7 +55,7 @@ export function BalanceBand() {
         <GoldenBox key="today"><StatCard label="Today" value={usd(t.change24, { sign: true })} tone={t.change24 >= 0 ? "up" : "down"} body={<p>{pct(t.change24Pct)} on the day across every holding; cash does not move.</p>} /></GoldenBox>,
         <GoldenBox key="return"><StatCard label="All-time return" value={pct(t.gainPct, 1)} body={<p>{usd(t.gain, { sign: true })} against {usd(t.cost)} paid for the five positions.</p>} /></GoldenBox>,
         <GoldenBox key="best"><StatCard label="Best today" value={best.symbol} spoken={`${best.name}, ${usd(best.change24, { sign: true })} today`} body={<p>{usd(best.change24, { sign: true })}</p>} /></GoldenBox>,
-        <GoldenBox key="cash"><StatCard label="Cash" value={usd(CASH)} body={<p>USDC, available to trade.</p>} /></GoldenBox>,
+        <GoldenBox key="cash"><StatCard label="Cash" value={usd(CASH)} body={<p>USDC, a dollar stablecoin, held as cash.</p>} /></GoldenBox>,
       ]} />
     </Band>
   );
@@ -138,7 +138,7 @@ export function PriceBand({ a }: { a: Asset }) {
         <GoldenBox key="chart"><ChartBox label={`${a.name} · ${a.symbol}`} series={a.series} value={a.price} name={a.name} /></GoldenBox>,
         <GoldenBox key="yours">
           {h ? <StatCard label={`Your ${a.symbol}`} value={usd(h.qty * a.price)} body={<p>{qty(h.qty, a.symbol)}{h.staked ? `, ${qty(h.staked, a.symbol)} staked` : ""}; paid {usd(h.cost)}, {pct(((h.qty * a.price - h.cost) / h.cost) * 100, 1)} all time.</p>} />
-             : <StatCard label={`Your ${a.symbol}`} value="None" body={<p>You do not hold {a.name}. Buy, or set a recurring buy, from the panel below.</p>} />}
+             : <StatCard label={`Your ${a.symbol}`} value="None" body={<p>This account holds no {a.name}. The quote below reads its price and the fee.</p>} />}
         </GoldenBox>,
         <GoldenBox key="change"><StatCard label="24h change" value={pct(changePct24(a))} tone={ch >= 0 ? "up" : "down"} body={<p>{usd(ch, { sign: true })} since the same time yesterday.</p>} /></GoldenBox>,
         <GoldenBox key="cap"><StatCard label="Market cap" value={a.marketCap ? usd(a.marketCap, { compact: true }) : "—"} body={<p>Rank {a.rank ?? "—"} by market capitalisation.</p>} /></GoldenBox>,
@@ -186,7 +186,7 @@ export function AboutBand({ a }: { a: Asset }) {
           </Fact>
         </GoldenBox>
         <GoldenBox><LinkBox label="Resources" href={w.url}>Read more on Wikipedia</LinkBox></GoldenBox>
-        <GoldenBox><LinkBox label="Trade" href="#trade">Buy, sell or convert {a.symbol}</LinkBox></GoldenBox>
+        <GoldenBox><LinkBox label="Quote" href="#quote">{a.symbol} price and fee</LinkBox></GoldenBox>
       </GoldenGrid>
     </Band>
   );
